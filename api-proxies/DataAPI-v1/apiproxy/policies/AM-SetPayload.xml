@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage continueOnError="false" enabled="true" name="AM-SetPayload">
+  <DisplayName>AM-SetPayload</DisplayName>
+  <Properties/>
+  <Remove>
+    <QueryParams>
+      <QueryParam name="date"/>
+      <QueryParam name="file"/>
+    </QueryParams>
+  </Remove>
+  <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+  <AssignTo createNew="false" transport="http" type="request"/>
+</AssignMessage>

@@ -1,0 +1,22 @@
+{
+	"connectorDetails": {
+		"name": "gcs",
+		"provider": "gcp",
+		"version": 1
+	},
+	"configVariables": [
+		{
+			"key": "project_id",
+			"stringValue": "$PROJECT_ID$"
+		}
+	],
+	"authConfig": {},
+	"suspended": false,
+	"logConfig": {},
+	"sslConfig": {
+		"privateServerCertificate": {},
+		"clientCertificate": {},
+		"clientPrivateKey": {},
+		"clientPrivateKeyPass": {}
+	}
+}

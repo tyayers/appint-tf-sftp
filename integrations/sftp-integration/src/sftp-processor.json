@@ -1,0 +1,937 @@
+{
+	"snapshotNumber": "9",
+	"triggerConfigs": [
+		{
+			"label": "Schedule Trigger",
+			"triggerType": "CRON",
+			"triggerNumber": "1",
+			"triggerId": "cron_trigger/sftp-processor_Timer_1/5+20+*+*+*",
+			"startTasks": [
+				{
+					"taskId": "1"
+				}
+			],
+			"properties": {
+				"Scheduled Time spec": "5 20 * * *",
+				"Timer Name": "sftp-processor_Timer_1"
+			}
+		},
+		{
+			"label": "Process XML to JSON",
+			"triggerType": "API",
+			"triggerNumber": "5",
+			"triggerId": "api_trigger/sftp-processor_API_3",
+			"startTasks": [
+				{
+					"taskId": "12"
+				}
+			],
+			"properties": {
+				"Trigger name": "sftp-processor_API_3"
+			}
+		},
+		{
+			"label": "Get JSON File",
+			"triggerType": "API",
+			"triggerNumber": "2",
+			"triggerId": "api_trigger/sftp-processor_API_1",
+			"startTasks": [
+				{
+					"taskId": "4"
+				}
+			],
+			"properties": {
+				"Trigger name": "sftp-processor_API_1"
+			}
+		},
+		{
+			"label": "Process SFTP file",
+			"triggerType": "API",
+			"triggerNumber": "4",
+			"triggerId": "api_trigger/sftp-processor_API_2",
+			"startTasks": [
+				{
+					"taskId": "7",
+					"condition": "$filePath$ : \".zip\""
+				}
+			],
+			"properties": {
+				"Trigger name": "sftp-processor_API_2"
+			}
+		}
+	],
+	"taskConfigs": [
+		{
+			"task": "GenericConnectorTask",
+			"taskId": "1",
+			"parameters": {
+				"connectionName": {
+					"key": "connectionName",
+					"value": {
+						"stringValue": "projects/apigee-test74/locations/europe-west4/connections/sftp"
+					}
+				},
+				"connectionVersion": {
+					"key": "connectionVersion",
+					"value": {
+						"stringValue": "projects/apigee-test74/locations/global/providers/default/connectors/sftp/versions/1"
+					}
+				},
+				"connectorOutputPayload": {
+					"key": "connectorOutputPayload",
+					"value": {
+						"stringValue": "$`Task_1_connectorOutputPayload`$"
+					}
+				},
+				"entityType": {
+					"key": "entityType",
+					"value": {
+						"stringValue": "Root"
+					}
+				},
+				"filterClause": {
+					"key": "filterClause",
+					"value": {
+						"stringValue": "$`Task_1_filterClause`$"
+					}
+				},
+				"listEntitiesNextPageToken": {
+					"key": "listEntitiesNextPageToken",
+					"value": {
+						"stringValue": "$`Task_1_listEntitiesNextPageToken`$"
+					}
+				},
+				"listEntitiesPageSize": {
+					"key": "listEntitiesPageSize",
+					"value": {
+						"stringValue": "$`Task_1_listEntitiesPageSize`$"
+					}
+				},
+				"listEntitiesPageToken": {
+					"key": "listEntitiesPageToken",
+					"value": {
+						"stringValue": "$`Task_1_listEntitiesPageToken`$"
+					}
+				},
+				"listEntitiesSortByColumns": {
+					"key": "listEntitiesSortByColumns",
+					"value": {
+						"stringValue": "$`Task_1_listEntitiesSortByColumns`$"
+					}
+				},
+				"operation": {
+					"key": "operation",
+					"value": {
+						"stringValue": "LIST_ENTITIES"
+					}
+				}
+			},
+			"displayName": "Check SFTP files",
+			"nextTasks": [
+				{
+					"taskId": "8"
+				}
+			],
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "SubWorkflowScatterGatherTask",
+			"taskId": "10",
+			"parameters": {
+				"aggregatorMap": {
+					"key": "aggregatorMap",
+					"value": {
+						"stringArray": {}
+					}
+				},
+				"disableEucPropagation": {
+					"key": "disableEucPropagation",
+					"value": {
+						"booleanValue": false
+					}
+				},
+				"executionStrategy": {
+					"key": "executionStrategy",
+					"value": {
+						"stringValue": "ASYNC"
+					}
+				},
+				"ignoreIndividualFailures": {
+					"key": "ignoreIndividualFailures",
+					"value": {
+						"booleanValue": false
+					}
+				},
+				"inputMap": {
+					"key": "inputMap",
+					"value": {
+						"stringArray": {}
+					}
+				},
+				"listToScatter": {
+					"key": "listToScatter",
+					"value": {
+						"stringValue": "$sftpFileList$"
+					}
+				},
+				"maxParallelScatters": {
+					"key": "maxParallelScatters",
+					"value": {
+						"intValue": "50"
+					}
+				},
+				"requestParamsMap": {
+					"key": "requestParamsMap",
+					"value": {}
+				},
+				"responseAggregatorMap": {
+					"key": "responseAggregatorMap",
+					"value": {}
+				},
+				"scatterElementParam": {
+					"key": "scatterElementParam",
+					"value": {
+						"stringValue": ""
+					}
+				},
+				"scatterResponseJson": {
+					"key": "scatterResponseJson",
+					"value": {
+						"stringArray": {
+							"stringValues": [
+								"$`Task_10_scatterResponseJson`$"
+							]
+						}
+					}
+				},
+				"staggeredScheduleByBatch": {
+					"key": "staggeredScheduleByBatch",
+					"value": {
+						"intValue": "0"
+					}
+				},
+				"subworkflowInput": {
+					"key": "subworkflowInput",
+					"value": {
+						"stringValue": "filePath"
+					}
+				},
+				"timeInMsToSchedule": {
+					"key": "timeInMsToSchedule",
+					"value": {
+						"intValue": "0"
+					}
+				},
+				"triggerId": {
+					"key": "triggerId",
+					"value": {
+						"stringValue": "api_trigger/sftp-processor_API_3"
+					}
+				},
+				"workflowName": {
+					"key": "workflowName",
+					"value": {
+						"stringValue": "sftp-processor"
+					}
+				}
+			},
+			"displayName": "For Each Parallel Convert",
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "GenericConnectorTask",
+			"taskId": "11",
+			"parameters": {
+				"actionName": {
+					"key": "actionName",
+					"value": {
+						"stringValue": "DownloadObject"
+					}
+				},
+				"connectionName": {
+					"key": "connectionName",
+					"value": {
+						"stringValue": "projects/apigee-test74/locations/europe-west4/connections/cloud-storage"
+					}
+				},
+				"connectionVersion": {
+					"key": "connectionVersion",
+					"value": {
+						"stringValue": "projects/apigee-test74/locations/global/providers/gcp/connectors/gcs/versions/1"
+					}
+				},
+				"connectorInputPayload": {
+					"key": "connectorInputPayload",
+					"value": {
+						"stringValue": "$`Task_11_connectorInputPayload`$"
+					}
+				},
+				"connectorOutputPayload": {
+					"key": "connectorOutputPayload",
+					"value": {
+						"stringValue": "$`Task_11_connectorOutputPayload`$"
+					}
+				},
+				"operation": {
+					"key": "operation",
+					"value": {
+						"stringValue": "EXECUTE_ACTION"
+					}
+				}
+			},
+			"displayName": "Get XML File",
+			"nextTasks": [
+				{
+					"taskId": "13"
+				}
+			],
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "FieldMappingTask",
+			"taskId": "12",
+			"parameters": {
+				"FieldMappingConfigTaskParameterKey": {
+					"key": "FieldMappingConfigTaskParameterKey",
+					"value": {
+						"jsonValue": "{\n  \"@type\": \"type.googleapis.com/enterprise.crm.eventbus.proto.FieldMappingConfig\",\n  \"mappedFields\": [{\n    \"inputField\": {\n      \"fieldType\": \"STRING_VALUE\",\n      \"transformExpression\": {\n        \"initialValue\": {\n          \"referenceValue\": \"$filePath$\"\n        }\n      }\n    },\n    \"outputField\": {\n      \"referenceKey\": \"$`Task_11_connectorInputPayload`.ObjectFilePath$\",\n      \"fieldType\": \"JSON_VALUE\",\n      \"cardinality\": \"OPTIONAL\"\n    }\n  }, {\n    \"inputField\": {\n      \"fieldType\": \"STRING_VALUE\",\n      \"transformExpression\": {\n        \"initialValue\": {\n          \"referenceValue\": \"$`CONFIG_StorageBucket`$\"\n        }\n      }\n    },\n    \"outputField\": {\n      \"referenceKey\": \"$`Task_11_connectorInputPayload`.Bucket$\",\n      \"fieldType\": \"STRING_VALUE\",\n      \"cardinality\": \"OPTIONAL\"\n    }\n  }]\n}"
+					}
+				}
+			},
+			"displayName": "Set Storage Input",
+			"nextTasks": [
+				{
+					"taskId": "11"
+				}
+			],
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "JsonnetMapperTask",
+			"taskId": "13",
+			"parameters": {
+				"diagramMetadata": {
+					"key": "diagramMetadata",
+					"value": {
+						"jsonValue": "{\n  \"@type\": \"type.googleapis.com/google.protobuf.Struct\",\n  \"value\": {\n    \"0\": {\n      \"inputs\": [{\n        \"name\": \"`Task_11_connectorOutputPayload`\",\n        \"type\": 17.0,\n        \"tokenType\": 0.0\n      }],\n      \"outputs\": [{\n        \"name\": \"OutputString\",\n        \"type\": 1.0,\n        \"tokenType\": 0.0\n      }],\n      \"mappings\": [{\n        \"transformation\": {\n          \"coordinates\": [\"362px\", \"59px\"],\n          \"operationId\": \"TRANSFORMATION_0\",\n          \"operations\": [{\n            \"type\": 2.0,\n            \"key\": 59.0,\n            \"params\": [{\n              \"type\": 3.0,\n              \"value\": \"Task_11_connectorOutputPayload\",\n              \"datatype\": null\n            }, {\n              \"type\": 0.0,\n              \"value\": 0.0,\n              \"datatype\": 2.0\n            }]\n          }, {\n            \"type\": 2.0,\n            \"key\": 60.0,\n            \"params\": [{\n              \"type\": 4.0,\n              \"value\": \"previousOperation\",\n              \"datatype\": null\n            }, {\n              \"type\": 0.0,\n              \"value\": \"Content\",\n              \"datatype\": 1.0\n            }]\n          }, {\n            \"type\": 1.0,\n            \"key\": 117.0,\n            \"params\": [{\n              \"type\": 4.0,\n              \"value\": \"previousOperation\",\n              \"datatype\": null\n            }, {\n              \"type\": 0.0,\n              \"value\": \"badgerfish\",\n              \"datatype\": 1.0\n            }]\n          }, {\n            \"type\": 1.0,\n            \"key\": 0.0,\n            \"params\": [{\n              \"type\": 4.0,\n              \"value\": \"previousOperation\",\n              \"datatype\": null\n            }]\n          }]\n        },\n        \"inputs\": [\"`Task_11_connectorOutputPayload`\"],\n        \"output\": \"OutputString\"\n      }]\n    }\n  }\n}"
+					}
+				},
+				"template": {
+					"key": "template",
+					"value": {
+						"stringValue": "local f = import \"functions\";\nlocal Task_11_connectorOutputPayload = std.extVar(\"`Task_11_connectorOutputPayload`\");\n{\"OutputString\": std.toString(f.parseXml(Task_11_connectorOutputPayload[0][\"Content\"],\"badgerfish\"))}"
+					}
+				}
+			},
+			"displayName": "Convert to JSON",
+			"nextTasks": [
+				{
+					"taskId": "15"
+				}
+			],
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "GenericConnectorTask",
+			"taskId": "14",
+			"parameters": {
+				"actionName": {
+					"key": "actionName",
+					"value": {
+						"stringValue": "UploadObject"
+					}
+				},
+				"connectionName": {
+					"key": "connectionName",
+					"value": {
+						"stringValue": "projects/apigee-test74/locations/europe-west4/connections/cloud-storage"
+					}
+				},
+				"connectionVersion": {
+					"key": "connectionVersion",
+					"value": {
+						"stringValue": "projects/apigee-test74/locations/global/providers/gcp/connectors/gcs/versions/1"
+					}
+				},
+				"connectorInputPayload": {
+					"key": "connectorInputPayload",
+					"value": {
+						"stringValue": "$`Task_14_connectorInputPayload`$"
+					}
+				},
+				"connectorOutputPayload": {
+					"key": "connectorOutputPayload",
+					"value": {
+						"stringValue": "$`Task_14_connectorOutputPayload`$"
+					}
+				},
+				"operation": {
+					"key": "operation",
+					"value": {
+						"stringValue": "EXECUTE_ACTION"
+					}
+				}
+			},
+			"displayName": "Save JSON to Storage",
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "FieldMappingTask",
+			"taskId": "15",
+			"parameters": {
+				"FieldMappingConfigTaskParameterKey": {
+					"key": "FieldMappingConfigTaskParameterKey",
+					"value": {
+						"jsonValue": "{\n  \"@type\": \"type.googleapis.com/enterprise.crm.eventbus.proto.FieldMappingConfig\",\n  \"mappedFields\": [{\n    \"inputField\": {\n      \"fieldType\": \"STRING_VALUE\",\n      \"transformExpression\": {\n        \"initialValue\": {\n          \"referenceValue\": \"$`CONFIG_StorageBucket`$\"\n        }\n      }\n    },\n    \"outputField\": {\n      \"referenceKey\": \"$`Task_14_connectorInputPayload`.Bucket$\",\n      \"fieldType\": \"STRING_VALUE\",\n      \"cardinality\": \"OPTIONAL\"\n    }\n  }, {\n    \"inputField\": {\n      \"fieldType\": \"STRING_VALUE\",\n      \"transformExpression\": {\n        \"initialValue\": {\n          \"referenceValue\": \"$filePath$\"\n        },\n        \"transformationFunctions\": [{\n          \"functionType\": {\n            \"stringFunction\": {\n              \"functionName\": \"SPLIT\"\n            }\n          },\n          \"parameters\": [{\n            \"initialValue\": {\n              \"literalValue\": {\n                \"stringValue\": \"/\"\n              }\n            }\n          }]\n        }, {\n          \"functionType\": {\n            \"stringArrayFunction\": {\n              \"functionName\": \"GET\"\n            }\n          },\n          \"parameters\": [{\n            \"initialValue\": {\n              \"literalValue\": {\n                \"intValue\": \"0\"\n              }\n            }\n          }]\n        }]\n      }\n    },\n    \"outputField\": {\n      \"referenceKey\": \"$`Task_14_connectorInputPayload`.FolderPath$\",\n      \"fieldType\": \"JSON_VALUE\",\n      \"cardinality\": \"OPTIONAL\"\n    }\n  }, {\n    \"inputField\": {\n      \"fieldType\": \"STRING_VALUE\",\n      \"transformExpression\": {\n        \"initialValue\": {\n          \"referenceValue\": \"$filePath$\"\n        },\n        \"transformationFunctions\": [{\n          \"functionType\": {\n            \"stringFunction\": {\n              \"functionName\": \"SPLIT\"\n            }\n          },\n          \"parameters\": [{\n            \"initialValue\": {\n              \"literalValue\": {\n                \"stringValue\": \"/\"\n              }\n            }\n          }]\n        }, {\n          \"functionType\": {\n            \"stringArrayFunction\": {\n              \"functionName\": \"GET\"\n            }\n          },\n          \"parameters\": [{\n            \"initialValue\": {\n              \"literalValue\": {\n                \"intValue\": \"1\"\n              }\n            }\n          }]\n        }, {\n          \"functionType\": {\n            \"stringFunction\": {\n              \"functionName\": \"SPLIT\"\n            }\n          },\n          \"parameters\": [{\n            \"initialValue\": {\n              \"literalValue\": {\n                \"stringValue\": \".\"\n              }\n            }\n          }]\n        }, {\n          \"functionType\": {\n            \"stringArrayFunction\": {\n              \"functionName\": \"GET\"\n            }\n          },\n          \"parameters\": [{\n            \"initialValue\": {\n              \"literalValue\": {\n                \"intValue\": \"0\"\n              }\n            }\n          }]\n        }, {\n          \"functionType\": {\n            \"stringFunction\": {\n              \"functionName\": \"CONCAT\"\n            }\n          },\n          \"parameters\": [{\n            \"initialValue\": {\n              \"literalValue\": {\n                \"stringValue\": \".json\"\n              }\n            }\n          }]\n        }]\n      }\n    },\n    \"outputField\": {\n      \"referenceKey\": \"$`Task_14_connectorInputPayload`.ObjectName$\",\n      \"fieldType\": \"JSON_VALUE\",\n      \"cardinality\": \"OPTIONAL\"\n    }\n  }, {\n    \"inputField\": {\n      \"fieldType\": \"STRING_VALUE\",\n      \"transformExpression\": {\n        \"initialValue\": {\n          \"referenceValue\": \"$OutputString$\"\n        }\n      }\n    },\n    \"outputField\": {\n      \"referenceKey\": \"$`Task_14_connectorInputPayload`.Content$\",\n      \"fieldType\": \"JSON_VALUE\",\n      \"cardinality\": \"OPTIONAL\"\n    }\n  }]\n}"
+					}
+				}
+			},
+			"displayName": "Set Storage Data",
+			"nextTasks": [
+				{
+					"taskId": "14"
+				}
+			],
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "SubWorkflowScatterGatherTask",
+			"taskId": "16",
+			"parameters": {
+				"aggregatorMap": {
+					"key": "aggregatorMap",
+					"value": {
+						"stringArray": {}
+					}
+				},
+				"disableEucPropagation": {
+					"key": "disableEucPropagation",
+					"value": {
+						"booleanValue": false
+					}
+				},
+				"executionStrategy": {
+					"key": "executionStrategy",
+					"value": {
+						"stringValue": "ASYNC"
+					}
+				},
+				"ignoreIndividualFailures": {
+					"key": "ignoreIndividualFailures",
+					"value": {
+						"booleanValue": false
+					}
+				},
+				"inputMap": {
+					"key": "inputMap",
+					"value": {
+						"stringArray": {}
+					}
+				},
+				"listToScatter": {
+					"key": "listToScatter",
+					"value": {
+						"stringValue": "$sftpFileList$"
+					}
+				},
+				"maxParallelScatters": {
+					"key": "maxParallelScatters",
+					"value": {
+						"intValue": "50"
+					}
+				},
+				"requestParamsMap": {
+					"key": "requestParamsMap",
+					"value": {}
+				},
+				"responseAggregatorMap": {
+					"key": "responseAggregatorMap",
+					"value": {}
+				},
+				"scatterElementParam": {
+					"key": "scatterElementParam",
+					"value": {
+						"stringValue": ""
+					}
+				},
+				"scatterResponseJson": {
+					"key": "scatterResponseJson",
+					"value": {
+						"stringArray": {
+							"stringValues": [
+								"$`Task_16_scatterResponseJson`$"
+							]
+						}
+					}
+				},
+				"staggeredScheduleByBatch": {
+					"key": "staggeredScheduleByBatch",
+					"value": {
+						"intValue": "0"
+					}
+				},
+				"subworkflowInput": {
+					"key": "subworkflowInput",
+					"value": {
+						"stringValue": "filePath"
+					}
+				},
+				"timeInMsToSchedule": {
+					"key": "timeInMsToSchedule",
+					"value": {
+						"intValue": "0"
+					}
+				},
+				"triggerId": {
+					"key": "triggerId",
+					"value": {
+						"stringValue": "api_trigger/sftp-processor_API_2"
+					}
+				},
+				"workflowName": {
+					"key": "workflowName",
+					"value": {
+						"stringValue": "sftp-processor"
+					}
+				}
+			},
+			"displayName": "For Each Parallel File",
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "JsonnetMapperTask",
+			"taskId": "17",
+			"parameters": {
+				"diagramMetadata": {
+					"key": "diagramMetadata",
+					"value": {
+						"jsonValue": "{\n  \"@type\": \"type.googleapis.com/google.protobuf.Struct\",\n  \"value\": {\n    \"0\": {\n      \"inputs\": [{\n        \"name\": \"`Task_11_connectorOutputPayload`\",\n        \"type\": 17.0,\n        \"tokenType\": 0.0\n      }, {\n        \"name\": \"`Task_3_connectorOutputPayload`\",\n        \"type\": 17.0,\n        \"tokenType\": 0.0\n      }],\n      \"mappings\": [{\n        \"transformation\": {\n          \"coordinates\": [\"375px\", \"68px\"],\n          \"operationId\": \"TRANSFORMATION_0\",\n          \"operations\": [{\n            \"type\": 2.0,\n            \"key\": 59.0,\n            \"params\": [{\n              \"type\": 3.0,\n              \"value\": \"Task_3_connectorOutputPayload\",\n              \"datatype\": null\n            }, {\n              \"type\": 0.0,\n              \"value\": 0.0,\n              \"datatype\": 2.0\n            }]\n          }, {\n            \"type\": 2.0,\n            \"key\": 60.0,\n            \"params\": [{\n              \"type\": 4.0,\n              \"value\": \"previousOperation\",\n              \"datatype\": null\n            }, {\n              \"type\": 0.0,\n              \"value\": \"Content\",\n              \"datatype\": 1.0\n            }]\n          }, {\n            \"type\": 1.0,\n            \"key\": 97.0,\n            \"params\": [{\n              \"type\": 4.0,\n              \"value\": \"previousOperation\",\n              \"datatype\": null\n            }]\n          }]\n        },\n        \"inputs\": [\"`Task_3_connectorOutputPayload`\"],\n        \"output\": \"Output\"\n      }],\n      \"outputs\": [{\n        \"name\": \"Output\",\n        \"type\": 17.0,\n        \"tokenType\": 0.0\n      }]\n    }\n  }\n}"
+					}
+				},
+				"template": {
+					"key": "template",
+					"value": {
+						"stringValue": "local f = import \"functions\";\nlocal Task_11_connectorOutputPayload = std.extVar(\"`Task_11_connectorOutputPayload`\");\nlocal Task_3_connectorOutputPayload = std.extVar(\"`Task_3_connectorOutputPayload`\");\n{\"Output\": std.parseJson(Task_3_connectorOutputPayload[0][\"Content\"])}"
+					}
+				}
+			},
+			"displayName": "Data Transformer",
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "GenericConnectorTask",
+			"taskId": "3",
+			"parameters": {
+				"actionName": {
+					"key": "actionName",
+					"value": {
+						"stringValue": "DownloadObject"
+					}
+				},
+				"connectionName": {
+					"key": "connectionName",
+					"value": {
+						"stringValue": "projects/apigee-test74/locations/europe-west4/connections/cloud-storage"
+					}
+				},
+				"connectionVersion": {
+					"key": "connectionVersion",
+					"value": {
+						"stringValue": "projects/apigee-test74/locations/global/providers/gcp/connectors/gcs/versions/1"
+					}
+				},
+				"connectorInputPayload": {
+					"key": "connectorInputPayload",
+					"value": {
+						"stringValue": "$`Task_3_connectorInputPayload`$"
+					}
+				},
+				"connectorOutputPayload": {
+					"key": "connectorOutputPayload",
+					"value": {
+						"stringValue": "$`Task_3_connectorOutputPayload`$"
+					}
+				},
+				"operation": {
+					"key": "operation",
+					"value": {
+						"stringValue": "EXECUTE_ACTION"
+					}
+				}
+			},
+			"displayName": "Get Storage Object",
+			"nextTasks": [
+				{
+					"taskId": "17"
+				}
+			],
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "FieldMappingTask",
+			"taskId": "4",
+			"parameters": {
+				"FieldMappingConfigTaskParameterKey": {
+					"key": "FieldMappingConfigTaskParameterKey",
+					"value": {
+						"jsonValue": "{\n  \"@type\": \"type.googleapis.com/enterprise.crm.eventbus.proto.FieldMappingConfig\",\n  \"mappedFields\": [{\n    \"inputField\": {\n      \"fieldType\": \"STRING_VALUE\",\n      \"transformExpression\": {\n        \"initialValue\": {\n          \"referenceValue\": \"$`CONFIG_StorageBucket`$\"\n        }\n      }\n    },\n    \"outputField\": {\n      \"referenceKey\": \"$`Task_3_connectorInputPayload`.Bucket$\",\n      \"fieldType\": \"STRING_VALUE\",\n      \"cardinality\": \"OPTIONAL\"\n    }\n  }, {\n    \"inputField\": {\n      \"fieldType\": \"STRING_VALUE\",\n      \"transformExpression\": {\n        \"initialValue\": {\n          \"literalValue\": {\n            \"stringValue\": \"data-\"\n          }\n        },\n        \"transformationFunctions\": [{\n          \"functionType\": {\n            \"stringFunction\": {\n              \"functionName\": \"CONCAT\"\n            }\n          },\n          \"parameters\": [{\n            \"initialValue\": {\n              \"referenceValue\": \"$date$\"\n            }\n          }]\n        }, {\n          \"functionType\": {\n            \"stringFunction\": {\n              \"functionName\": \"CONCAT\"\n            }\n          },\n          \"parameters\": [{\n            \"initialValue\": {\n              \"literalValue\": {\n                \"stringValue\": \"/\"\n              }\n            }\n          }]\n        }, {\n          \"functionType\": {\n            \"stringFunction\": {\n              \"functionName\": \"CONCAT\"\n            }\n          },\n          \"parameters\": [{\n            \"initialValue\": {\n              \"referenceValue\": \"$file$\"\n            }\n          }]\n        }]\n      }\n    },\n    \"outputField\": {\n      \"referenceKey\": \"$`Task_3_connectorInputPayload`.ObjectFilePath$\",\n      \"fieldType\": \"JSON_VALUE\",\n      \"cardinality\": \"OPTIONAL\"\n    }\n  }]\n}"
+					}
+				}
+			},
+			"displayName": "Set Storage Properties",
+			"nextTasks": [
+				{
+					"taskId": "3"
+				}
+			],
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "GenericRestV2Task",
+			"taskId": "7",
+			"parameters": {
+				"additionalHeaders": {
+					"key": "additionalHeaders",
+					"value": {}
+				},
+				"authConfig": {
+					"key": "authConfig",
+					"value": {
+						"jsonValue": "{\n  \"@type\": \"type.googleapis.com/enterprise.crm.eventbus.authconfig.AuthConfigTaskParam\"\n}"
+					}
+				},
+				"authConfigName": {
+					"key": "authConfigName",
+					"value": {
+						"stringValue": "SFTP Zip Function Auth"
+					}
+				},
+				"disableSSLValidation": {
+					"key": "disableSSLValidation",
+					"value": {
+						"booleanValue": false
+					}
+				},
+				"followRedirects": {
+					"key": "followRedirects",
+					"value": {
+						"booleanValue": true
+					}
+				},
+				"httpMethod": {
+					"key": "httpMethod",
+					"value": {
+						"stringValue": "POST"
+					}
+				},
+				"httpParams": {
+					"key": "httpParams",
+					"value": {}
+				},
+				"jsonAdditionalHeaders": {
+					"key": "jsonAdditionalHeaders",
+					"value": {
+						"jsonValue": "null"
+					}
+				},
+				"requestBody": {
+					"key": "requestBody",
+					"value": {
+						"stringValue": ""
+					}
+				},
+				"requestorId": {
+					"key": "requestorId",
+					"value": {
+						"stringValue": ""
+					}
+				},
+				"responseBody": {
+					"key": "responseBody",
+					"value": {
+						"stringArray": {
+							"stringValues": [
+								"$`Task_7_responseBody`$"
+							]
+						}
+					}
+				},
+				"responseHeader": {
+					"key": "responseHeader",
+					"value": {
+						"stringArray": {
+							"stringValues": [
+								"$`Task_7_responseHeader`$"
+							]
+						}
+					}
+				},
+				"responseStatus": {
+					"key": "responseStatus",
+					"value": {
+						"stringArray": {
+							"stringValues": [
+								"$`Task_7_responseStatus`$"
+							]
+						}
+					}
+				},
+				"throwError": {
+					"key": "throwError",
+					"value": {
+						"booleanValue": true
+					}
+				},
+				"url": {
+					"key": "url",
+					"value": {
+						"stringValue": "https://europe-west4-apigee-test74.cloudfunctions.net/sftp-zip-function"
+					}
+				},
+				"urlFetchingService": {
+					"key": "urlFetchingService",
+					"value": {
+						"stringValue": "HARPOON"
+					}
+				},
+				"urlQueryStrings": {
+					"key": "urlQueryStrings",
+					"value": {
+						"jsonValue": "{\n  \"@type\": \"type.googleapis.com/enterprise.crm.eventbus.proto.ParameterMap\",\n  \"entries\": [{\n    \"key\": {\n      \"literalValue\": {\n        \"stringValue\": \"fileLocation\"\n      }\n    },\n    \"value\": {\n      \"referenceKey\": \"$filePath$\"\n    }\n  }]\n}"
+					}
+				},
+				"useSSL": {
+					"key": "useSSL",
+					"value": {
+						"booleanValue": false
+					}
+				},
+				"userAgent": {
+					"key": "userAgent",
+					"value": {
+						"stringValue": ""
+					}
+				}
+			},
+			"displayName": "Call REST Endpoint",
+			"nextTasks": [
+				{
+					"taskId": "9"
+				}
+			],
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "FieldMappingTask",
+			"taskId": "8",
+			"parameters": {
+				"FieldMappingConfigTaskParameterKey": {
+					"key": "FieldMappingConfigTaskParameterKey",
+					"value": {
+						"jsonValue": "{\n  \"@type\": \"type.googleapis.com/enterprise.crm.eventbus.proto.FieldMappingConfig\",\n  \"mappedFields\": [{\n    \"inputField\": {\n      \"fieldType\": \"STRING_ARRAY\",\n      \"transformExpression\": {\n        \"initialValue\": {\n          \"referenceValue\": \"$`Task_1_connectorOutputPayload`$\"\n        },\n        \"transformationFunctions\": [{\n          \"functionType\": {\n            \"jsonFunction\": {\n              \"functionName\": \"FOR_EACH\"\n            }\n          },\n          \"parameters\": [{\n            \"initialValue\": {\n              \"literalValue\": {\n                \"protoValue\": {\n                  \"@type\": \"type.googleapis.com/enterprise.crm.eventbus.proto.TransformExpression\",\n                  \"initialValue\": {\n                    \"referenceValue\": \"~x\"\n                  },\n                  \"transformationFunctions\": [{\n                    \"functionType\": {\n                      \"jsonFunction\": {\n                        \"functionName\": \"GET_PROPERTY\"\n                      }\n                    },\n                    \"parameters\": [{\n                      \"initialValue\": {\n                        \"literalValue\": {\n                          \"stringValue\": \"FilePath\"\n                        }\n                      }\n                    }]\n                  }]\n                }\n              }\n            }\n          }]\n        }, {\n          \"functionType\": {\n            \"jsonFunction\": {\n              \"functionName\": \"TO_STRING_ARRAY\"\n            }\n          }\n        }]\n      }\n    },\n    \"outputField\": {\n      \"referenceKey\": \"$sftpFileList$\",\n      \"fieldType\": \"STRING_ARRAY\",\n      \"cardinality\": \"OPTIONAL\"\n    }\n  }]\n}"
+					}
+				}
+			},
+			"displayName": "Get File Paths",
+			"nextTasks": [
+				{
+					"taskId": "16"
+				}
+			],
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		},
+		{
+			"task": "FieldMappingTask",
+			"taskId": "9",
+			"parameters": {
+				"FieldMappingConfigTaskParameterKey": {
+					"key": "FieldMappingConfigTaskParameterKey",
+					"value": {
+						"jsonValue": "{\n  \"@type\": \"type.googleapis.com/enterprise.crm.eventbus.proto.FieldMappingConfig\",\n  \"mappedFields\": [{\n    \"inputField\": {\n      \"fieldType\": \"STRING_ARRAY\",\n      \"transformExpression\": {\n        \"initialValue\": {\n          \"referenceValue\": \"$`Task_7_responseBody`$\"\n        },\n        \"transformationFunctions\": [{\n          \"functionType\": {\n            \"stringFunction\": {\n              \"functionName\": \"TO_JSON\"\n            }\n          }\n        }, {\n          \"functionType\": {\n            \"jsonFunction\": {\n              \"functionName\": \"GET_PROPERTY\"\n            }\n          },\n          \"parameters\": [{\n            \"initialValue\": {\n              \"literalValue\": {\n                \"stringValue\": \"result\"\n              }\n            }\n          }]\n        }, {\n          \"functionType\": {\n            \"jsonFunction\": {\n              \"functionName\": \"TO_STRING_ARRAY\"\n            }\n          }\n        }]\n      }\n    },\n    \"outputField\": {\n      \"referenceKey\": \"$sftpFileList$\",\n      \"fieldType\": \"STRING_ARRAY\",\n      \"cardinality\": \"OPTIONAL\"\n    }\n  }]\n}"
+					}
+				}
+			},
+			"displayName": "Get Storage Paths",
+			"nextTasks": [
+				{
+					"taskId": "10"
+				}
+			],
+			"taskExecutionStrategy": "WHEN_ALL_SUCCEED",
+			"externalTaskType": "NORMAL_TASK"
+		}
+	],
+	"integrationParameters": [
+		{
+			"key": "filePath",
+			"dataType": "STRING_VALUE",
+			"inputOutputType": "IN"
+		},
+		{
+			"key": "`Task_1_listEntitiesPageSize`",
+			"dataType": "INT_VALUE",
+			"producer": "1_1"
+		},
+		{
+			"key": "`Task_1_listEntitiesPageToken`",
+			"dataType": "STRING_VALUE",
+			"producer": "1_1"
+		},
+		{
+			"key": "`Task_1_listEntitiesSortByColumns`",
+			"dataType": "STRING_ARRAY",
+			"producer": "1_1"
+		},
+		{
+			"key": "`Task_1_filterClause`",
+			"dataType": "STRING_VALUE",
+			"producer": "1_1"
+		},
+		{
+			"key": "`Task_1_connectorOutputPayload`",
+			"dataType": "JSON_VALUE",
+			"isTransient": true,
+			"producer": "1_1",
+			"jsonSchema": "{\n  \"type\": [\"array\"],\n  \"items\": {\n    \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n    \"type\": \"object\",\n    \"properties\": {\n      \"Filename\": {\n        \"type\": [\"string\", \"null\"],\n        \"description\": \"The name of the file or directory.\"\n      },\n      \"IsDirectory\": {\n        \"type\": [\"boolean\", \"null\"]\n      },\n      \"LastModified\": {\n        \"type\": [\"string\", \"null\"]\n      },\n      \"OwnerId\": {\n        \"type\": [\"string\", \"null\"]\n      },\n      \"Owner\": {\n        \"type\": [\"string\", \"null\"]\n      },\n      \"Group\": {\n        \"type\": [\"string\", \"null\"]\n      },\n      \"Permissions\": {\n        \"type\": [\"string\", \"null\"]\n      },\n      \"FileSize\": {\n        \"type\": [\"integer\", \"null\"],\n        \"description\": \"The size of the file.\"\n      },\n      \"FilePath\": {\n        \"type\": \"string\"\n      },\n      \"GroupId\": {\n        \"type\": [\"string\", \"null\"]\n      },\n      \"LocalFile\": {\n        \"type\": [\"string\", \"null\"]\n      }\n    }\n  },\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\"\n}"
+		},
+		{
+			"key": "`Task_1_listEntitiesNextPageToken`",
+			"dataType": "STRING_VALUE",
+			"isTransient": true,
+			"producer": "1_1"
+		},
+		{
+			"key": "`Task_3_connectorInputPayload`",
+			"dataType": "JSON_VALUE",
+			"producer": "1_3",
+			"jsonSchema": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"Bucket\": {\n      \"type\": \"string\",\n      \"description\": \"Bucket name where the object is located.\"\n    },\n    \"ObjectFilePath\": {\n      \"type\": [\"string\", \"null\"],\n      \"description\": \"Object name for the object that should be retrieved. If not specified, all the objects from the specified bucket will be retrieved.\"\n    },\n    \"HasBytes\": {\n      \"type\": [\"boolean\", \"null\"],\n      \"description\": \"Whether to download content as bytes.\",\n      \"default\": false\n    },\n    \"UpdatedEndDate\": {\n      \"type\": [\"string\", \"null\"],\n      \"description\": \"The end of the date range to download objects. If not specified, objects will be downloaded from the specified UpdatedStartDate until the present day.\"\n    },\n    \"UpdatedStartDate\": {\n      \"type\": [\"string\", \"null\"],\n      \"description\": \"The start of the date range to download objects. If not specified, objects will be downloaded from the beginning of the time until the UpdatedEndDate.\"\n    }\n  },\n  \"required\": [\"Bucket\"]\n}"
+		},
+		{
+			"key": "Output",
+			"dataType": "JSON_VALUE",
+			"defaultValue": {
+				"jsonValue": "{\n}"
+			},
+			"inputOutputType": "OUT",
+			"jsonSchema": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\"\n}"
+		},
+		{
+			"key": "OutputString",
+			"dataType": "STRING_VALUE",
+			"defaultValue": {
+				"stringValue": ""
+			},
+			"inputOutputType": "OUT"
+		},
+		{
+			"key": "`Task_7_responseHeader`",
+			"dataType": "STRING_VALUE",
+			"isTransient": true,
+			"producer": "1_7"
+		},
+		{
+			"key": "`Task_7_responseBody`",
+			"dataType": "STRING_VALUE",
+			"isTransient": true,
+			"producer": "1_7"
+		},
+		{
+			"key": "`Task_7_responseStatus`",
+			"dataType": "STRING_VALUE",
+			"isTransient": true,
+			"producer": "1_7"
+		},
+		{
+			"key": "sftpFileList",
+			"dataType": "STRING_ARRAY"
+		},
+		{
+			"key": "`Task_10_scatterResponseJson`",
+			"dataType": "JSON_VALUE",
+			"isTransient": true,
+			"producer": "1_10"
+		},
+		{
+			"key": "`Task_11_connectorInputPayload`",
+			"dataType": "JSON_VALUE",
+			"producer": "1_11",
+			"jsonSchema": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"Bucket\": {\n      \"type\": \"string\",\n      \"description\": \"Bucket name where the object is located.\"\n    },\n    \"ObjectFilePath\": {\n      \"type\": [\"string\", \"null\"],\n      \"description\": \"Object name for the object that should be retrieved. If not specified, all the objects from the specified bucket will be retrieved.\"\n    },\n    \"HasBytes\": {\n      \"type\": [\"boolean\", \"null\"],\n      \"description\": \"Whether to download content as bytes.\",\n      \"default\": false\n    },\n    \"UpdatedEndDate\": {\n      \"type\": [\"string\", \"null\"],\n      \"description\": \"The end of the date range to download objects. If not specified, objects will be downloaded from the specified UpdatedStartDate until the present day.\"\n    },\n    \"UpdatedStartDate\": {\n      \"type\": [\"string\", \"null\"],\n      \"description\": \"The start of the date range to download objects. If not specified, objects will be downloaded from the beginning of the time until the UpdatedEndDate.\"\n    }\n  },\n  \"required\": [\"Bucket\"]\n}"
+		},
+		{
+			"key": "`Task_11_connectorOutputPayload`",
+			"dataType": "JSON_VALUE",
+			"isTransient": true,
+			"producer": "1_11",
+			"jsonSchema": "{\n  \"type\": \"array\",\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n    },\n    \"$schema\": \"http://json-schema.org/draft-07/schema#\"\n  }\n}"
+		},
+		{
+			"key": "`Task_14_connectorInputPayload`",
+			"dataType": "JSON_VALUE",
+			"producer": "1_14",
+			"jsonSchema": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"FolderPath\": {\n      \"type\": [\"string\", \"null\"],\n      \"description\": \"The path to the folder that will receive the data of the object.\"\n    },\n    \"Content\": {\n      \"type\": [\"string\", \"null\"],\n      \"description\": \"The Content to be uploaded in the bucket\"\n    },\n    \"ObjectName\": {\n      \"type\": [\"string\", \"null\"],\n      \"description\": \"The name of the uploaded object. It should be specified only when uploading the content as InputStream.\"\n    },\n    \"ContentBytes\": {\n      \"type\": [\"string\", \"null\"],\n      \"description\": \"Bytes content to upload as file.\"\n    },\n    \"ContentType\": {\n      \"type\": [\"string\", \"null\"],\n      \"description\": \"Content-Type of the object data.\",\n      \"default\": \"application/x-www-form-urlencoded\"\n    },\n    \"HasBytes\": {\n      \"type\": [\"boolean\", \"null\"],\n      \"description\": \"Whether to upload content as bytes.\",\n      \"default\": false\n    },\n    \"Bucket\": {\n      \"type\": \"string\",\n      \"description\": \"Bucket name where the object will be uploaded.\"\n    }\n  },\n  \"required\": [\"Bucket\"]\n}"
+		},
+		{
+			"key": "`Task_14_connectorOutputPayload`",
+			"dataType": "JSON_VALUE",
+			"isTransient": true,
+			"producer": "1_14",
+			"jsonSchema": "{\n  \"type\": \"array\",\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n    },\n    \"$schema\": \"http://json-schema.org/draft-07/schema#\"\n  }\n}"
+		},
+		{
+			"key": "`Task_16_scatterResponseJson`",
+			"dataType": "JSON_VALUE",
+			"isTransient": true,
+			"producer": "1_16"
+		},
+		{
+			"key": "date",
+			"dataType": "STRING_VALUE",
+			"inputOutputType": "IN"
+		},
+		{
+			"key": "file",
+			"dataType": "STRING_VALUE",
+			"defaultValue": {
+				"stringValue": ""
+			},
+			"inputOutputType": "IN"
+		},
+		{
+			"key": "`Task_3_connectorOutputPayload`",
+			"dataType": "JSON_VALUE",
+			"isTransient": true,
+			"producer": "1_3",
+			"jsonSchema": "{\n  \"type\": \"array\",\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"items\": {\n    \"type\": \"object\",\n    \"properties\": {\n    },\n    \"$schema\": \"http://json-schema.org/draft-07/schema#\"\n  }\n}"
+		}
+	],
+	"integrationConfigParameters": [
+		{
+			"parameter": {
+				"key": "`CONFIG_StorageBucket`",
+				"dataType": "STRING_VALUE",
+				"defaultValue": {
+					"stringValue": "aip-sftp-cache"
+				},
+				"displayName": "`CONFIG_StorageBucket`"
+			}
+		}
+	],
+	"databasePersistencePolicy": "",
+	"cloudLoggingDetails": {
+		"cloudLoggingSeverity": "",
+		"enableCloudLogging": false
+	}
+}

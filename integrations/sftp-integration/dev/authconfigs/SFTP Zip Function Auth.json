@@ -1,0 +1,10 @@
+{
+	"displayName": "SFTP Zip Function Auth",
+	"decryptedCredential": {
+		"credentialType": "OIDC_TOKEN",
+		"oidcToken": {
+			"serviceAccountEmail": "int-service@apigee-test85.iam.gserviceaccount.com",
+			"audience": "https://europe-west4-apigee-test74.cloudfunctions.net/sftp-zip-function"
+		}
+	}
+}

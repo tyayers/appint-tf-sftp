@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ExtractVariables continueOnError="false" enabled="true" name="EV-GetVariables">
+  <DisplayName>EV-GetVariables</DisplayName>
+  <Properties/>
+  <QueryParam name="date">
+    <Pattern ignoreCase="true">{date}</Pattern>
+  </QueryParam>
+  <QueryParam name="file">
+    <Pattern ignoreCase="true">{file}</Pattern>
+  </QueryParam>
+</ExtractVariables>

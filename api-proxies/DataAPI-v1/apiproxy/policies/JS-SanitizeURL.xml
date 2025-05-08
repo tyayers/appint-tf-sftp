@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Javascript continueOnError="false" enabled="false" timeLimit="200" name="JS-SanitizeURL">
+  <DisplayName>JS-SanitizeURL</DisplayName>
+  <Properties/>
+  <ResourceURL>jsc://Resource-1.js</ResourceURL>
+</Javascript>

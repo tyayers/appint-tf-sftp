@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<APIProxy revision="7" name="SFTP-Data-v2">
+  <DisplayName/>
+  <Description>API for retrieving converted SFTP data.</Description>
+  <CreatedAt>1718892025600</CreatedAt>
+  <LastModifiedAt>1718892025600</LastModifiedAt>
+  <BasePaths>/v2/sftp-data</BasePaths>
+  <Policies>
+    <Policy>EV-GetVariables</Policy>
+    <Policy>AM-SetPayload</Policy>
+    <Policy>AM-SetResponse</Policy>
+    <Policy>EV-GetOutput</Policy>
+    <Policy>SC-DownloadFile</Policy>
+    <Policy>JS-SanitizeURL</Policy>
+  </Policies>
+  <ProxyEndpoints>
+    <ProxyEndpoint>default</ProxyEndpoint>
+  </ProxyEndpoints>
+  <Resources>
+    <Resource>jsc://Resource-1.js</Resource>
+  </Resources>
+  <TargetEndpoints>
+    <TargetEndpoint>default</TargetEndpoint>
+  </TargetEndpoints>
+</APIProxy>
